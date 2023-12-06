@@ -1,0 +1,24 @@
+#Support for AMD
+ethernet0.virtualDev = "vmxnet3"
+hw.model = "iMac20,2"
+board-id = "Mac-AF89B6D15A5A490B"
+smc.version = "0"
+cpuid.0.eax = "0000:0000:0000:0000:0000:0000:0000:1011"
+cpuid.0.ebx = "0111:0101:0110:1110:0110:0101:0100:0111"
+cpuid.0.ecx = "0110:1100:0110:0101:0111:0100:0110:1110"
+cpuid.0.edx = "0100:1001:0110:0101:0110:1110:0110:1001"
+cpuid.1.eax = "0000:0000:0000:0001:0000:0110:0111:0001"
+cpuid.1.ebx = "0000:0010:0000:0001:0000:1000:0000:0000"
+cpuid.1.ecx = "1000:0010:1001:1000:0010:0010:0000:0011"
+cpuid.1.edx = "0000:0111:1000:1011:1111:1011:1111:1111"
+SMBIOS.use12CharSerialNumber = "TRUE"
+serialNumber = "AX41EX44DEEP"
+smbios.reflectHost = "TRUE"
+#board-id.reflectHost = "TRUE"
+hw.model.reflectHost = "FALSE"
+serialNumber.reflectHost = "FALSE"
+smbios.restrictSerialCharset = "TRUE"
+
+
+
+
