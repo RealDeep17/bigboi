@@ -1,7 +1,7 @@
 #Support for AMD
 ethernet0.virtualDev = "vmxnet3"
 hw.model = "iMac20,2"
-board-id = "Mac-AF89B6D15A5A490B"
+board-id = "Mac-AF89B6D15A51490B"
 smc.version = "0"
 cpuid.0.eax = "0000:0000:0000:0000:0000:0000:0000:1011"
 cpuid.0.ebx = "0111:0101:0110:1110:0110:0101:0100:0111"
