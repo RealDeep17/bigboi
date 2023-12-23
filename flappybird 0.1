@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flappy Bird</title>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+</head>
+<body>
+  <script>
+    const config = {
+      type: Phaser.AUTO,
+      width: '100%',
+      height: '100%',
+      scene: {
+        preload: preload,
+        create: create,
+        update: update
+      },
+      physics: {
+        default: 'arcade',
+        arcade: {
+          gravity: { y: 800 },
+          debug: false
+        }
+      }
+    };
+
+    const game = new Phaser.Game(config);
+    let bird;
+    let pipes;
+    let cursors;
+    let score = 0;
+    let scoreText;
+    let highScore = 0;
+
+    function preload() {
+      this.load.spritesheet('bird', createBirdImage(), { frameWidth: 34, frameHeight: 24 });
+      this.load.image('pipe', createPipeImage());
+      this.load.image('background', createBackgroundImage());
+      this.load.audio('flapSound', 'flap.mp3');
+    }
+
+    function create() {
+      createBackground.call(this);
+
+      bird = createBird.call(this);
+      pipes = this.physics.add.group();
+      cursors = this.input.keyboard.createCursorKeys();
+      scoreText = createScoreText.call(this);
+
+      createPipes.call(this);
+
+      // Play background music
+      const backgroundMusic = this.sound.add('flapSound', { loop: true });
+      backgroundMusic.play();
+    }
+
+    function update() {
+      handleInput.call(this);
+      updateBirdAnimation.call(this);
+      updatePipes.call(this);
+      checkCollision.call(this);
+      increaseScoreOnPass.call(this);
+    }
+
+    function createBackground() {
+      const bg = this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'background')
+        .setDisplaySize(window.innerWidth, window.innerHeight);
+      bg.setDepth(-1);
+    }
+
+    function createBird() {
+      const bird = this.physics.add.sprite(100, 300, 'bird').setOrigin(0, 0);
+      bird.setCollideWorldBounds(true);
+      bird.setGravityY(1000);
+
+      this.anims.create({
+        key: 'flap',
+        frames: this.anims.generateFrameNumbers('bird', { start: 0, end: 2 }),
+        frameRate: 10,
+        repeat: -1
+      });
+
+      return bird;
+    }
+
+    function createPipes() {
+      this.time.addEvent({
+        delay: 1500,
+        callback: createPipe,
+        callbackScope: this,
+        loop: true
+      });
+    }
+
+    function createScoreText() {
+      return this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
+    }
+
+    function createPipe() {
+      const pipeGap = 150;
+      const pipeHeight = Math.floor(Math.random() * 200) + 100;
+
+      const upperPipe = pipes.create(window.innerWidth, 0, 'pipe').setOrigin(0, 1).setFlipY(true);
+      const lowerPipe = pipes.create(window.innerWidth, pipeHeight + pipeGap, 'pipe').setOrigin(0, 0);
+
+      upperPipe.setVelocityX(-200);
+      lowerPipe.setVelocityX(-200);
+
+      pipes.passed = false;
+    }
+
+    function handleInput() {
+      if (cursors.space.isDown) {
+        bird.setVelocityY(-300);
+        this.sound.play('flapSound');
+      }
+    }
+
+    function updateBirdAnimation() {
+      bird.play('flap', true);
+    }
+
+    function updatePipes() {
+      pipes.children.iterate(function (pipe) {
+        if (pipe.getBounds().right < bird.getBounds().left && !pipe.passed) {
+          pipe.passed = true;
+          increaseScore();
+        }
+      });
+    }
+
+    function checkCollision() {
+      if (bird.y > window.innerHeight || bird.y < 0) {
+        gameOver();
+      }
+
+      this.physics.add.collider(bird, pipes, gameOver, null, this);
+    }
+
+    function increaseScoreOnPass() {
+      function increaseScore() {
+        score += 1;
+        scoreText.setText('Score: ' + score);   
+      }
+    }
+
+    function gameOver() {
+      this.physics.pause();
+      bird.setTint(0xff0000);
+      alert('Game Over! Your score is: ' + score);
+
+      if (score > highScore) {
+        highScore = score;
+        alert('New High Score: ' + highScore);
+      }
+
+      location.reload();
+    }
+
+    function createBirdImage() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 34;
+      canvas.height = 24;
+      const ctx = canvas.getContext('2d');
+
+      ctx.fillStyle = "#ffff00"; // Yellow
+      ctx.fillRect(0, 0, 34, 24);
+
+      return canvas.toDataURL('image/png').split(',')[1];
+    }
+
+    function createPipeImage() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 52;
+      canvas.height = 320;
+      const ctx = canvas.getContext('2d');
+
+      ctx.fillStyle = "#00ff00"; // Green
+      ctx.fillRect(0, 0, 52, 320);
+
+      return canvas.toDataURL('image/png').split(',')[1];
+    }
+
+    function createBackgroundImage() {
+      const canvas = document.createElement('canvas');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const ctx = canvas.getContext('2d');
+
+      ctx.fillStyle = "#87CEEB"; // Sky Blue
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#8B4513"; // Brown
+      ctx.fillRect(0, canvas.height - 50, canvas.width, 50);
+
+      return canvas.toDataURL('image/png').split(',')[1];
+    }
+  </script>
+</body>
+</html>
