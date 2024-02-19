@@ -1,6 +1,6 @@
 
 #!/bin/bash
-#cc
+#ccnnnn
 # Function to log messages to a file
 log_file="/var/log/my_script.log"
 log() {
