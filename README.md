@@ -3,8 +3,7 @@ one to rule none
 
 
 The "System Configuration Automation Script" is a versatile and customizable Bash script designed to streamline and automate various system setup and configuration tasks on Linux servers. This script can be particularly useful for system administrators and IT professionals looking to expedite the process of setting up and configuring a server environment.
-
-Features:
+nbmbnm
 -
 Modular Task Execution: The script is organized into modular tasks, each with a descriptive placeholder. Users can easily replace the placeholders with their own commands to tailor the script to their specific requirements.
 
