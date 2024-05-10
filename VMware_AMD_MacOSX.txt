@@ -22,3 +22,4 @@ smbios.restrictSerialCharset = "TRUE"
 
 
 
+.
