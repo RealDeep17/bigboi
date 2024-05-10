@@ -1,0 +1,9 @@
+sudo dnf update && sudo dnf upgrade -y
+sudo dnf install nano gedit vlc telegram htop
+sudo nano /etc/dnf/dnf.conf
+max_parallel_downloads=20
+fastestmirror=True
+
+sudo dnf install epel-release
+sudo dnf copr enable castor/remmina
+sudo dnf install 'remmina*'
