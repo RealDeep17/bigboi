@@ -1,6 +1,6 @@
 sudo apt update && sudo apt upgrade -y
 sudo apt-get install cron
-
+#hh
 sudo cp ~/.ssh/authorized_keys /root/.ssh/
 sudo su
 chown -R root:root /root/.ssh
