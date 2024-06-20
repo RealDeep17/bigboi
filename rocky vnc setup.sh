@@ -8,7 +8,7 @@ log() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $log_message" >> "$log_file"
 }
 
-# Function to show progress
+# Function to shjjow progress
 show_progress() {
     local completed="$1"
     local total="$2"
